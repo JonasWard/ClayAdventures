@@ -1,0 +1,50 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/jonas/Documents/ClayPatterns/ClayPatterns/ClayPatterns/ClayPatterns.csproj": {}
+  },
+  "projects": {
+    "/Users/jonas/Documents/ClayPatterns/ClayPatterns/ClayPatterns/ClayPatterns.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/jonas/Documents/ClayPatterns/ClayPatterns/ClayPatterns/ClayPatterns.csproj",
+        "projectName": "ClayPatterns",
+        "projectPath": "/Users/jonas/Documents/ClayPatterns/ClayPatterns/ClayPatterns/ClayPatterns.csproj",
+        "packagesPath": "/Users/jonas/.nuget/packages/",
+        "outputPath": "/Users/jonas/Documents/ClayPatterns/ClayPatterns/ClayPatterns/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/jonas/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net45"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net45": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net45": {
+          "dependencies": {
+            "Grasshopper": {
+              "include": "Compile, Build",
+              "target": "Package",
+              "version": "[6.16.19190.7001, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
