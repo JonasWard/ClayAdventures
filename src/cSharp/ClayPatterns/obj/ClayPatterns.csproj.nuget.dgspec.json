@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/jonas/Documents/ClayPatterns/ClayPatterns/ClayPatterns/ClayPatterns.csproj": {}
+    "/Users/jonas/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/ClayPatterns.csproj": {}
   },
   "projects": {
-    "/Users/jonas/Documents/ClayPatterns/ClayPatterns/ClayPatterns/ClayPatterns.csproj": {
+    "/Users/jonas/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/ClayPatterns.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/jonas/Documents/ClayPatterns/ClayPatterns/ClayPatterns/ClayPatterns.csproj",
+        "projectUniqueName": "/Users/jonas/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/ClayPatterns.csproj",
         "projectName": "ClayPatterns",
-        "projectPath": "/Users/jonas/Documents/ClayPatterns/ClayPatterns/ClayPatterns/ClayPatterns.csproj",
+        "projectPath": "/Users/jonas/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/ClayPatterns.csproj",
         "packagesPath": "/Users/jonas/.nuget/packages/",
-        "outputPath": "/Users/jonas/Documents/ClayPatterns/ClayPatterns/ClayPatterns/obj/",
+        "outputPath": "/Users/jonas/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/jonas/.config/NuGet/NuGet.Config"
@@ -42,7 +42,7 @@
               "version": "[6.16.19190.7001, )"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.202/RuntimeIdentifierGraph.json"
         }
       }
     }
