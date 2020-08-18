@@ -28,6 +28,7 @@ namespace ClayPrinting
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddMeshParameter("VisualisationMesh", "VMesh", "A mesh reppresentation of the generated point cloud", GH_ParamAccess.item);
+            //pManager.AddParameter(dgsdhg,"Mesh2CurveObject", "M2Cobj", "the object that should be past around", GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -55,6 +56,7 @@ namespace ClayPrinting
             }
 
             DA.SetData(0, meshVisualisation);
+            //DA.SetData(1, curveShellObject);
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
 
