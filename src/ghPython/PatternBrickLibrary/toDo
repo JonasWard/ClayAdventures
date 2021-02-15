@@ -1,0 +1,43 @@
+## to-do list
+
+clay extrusion
+
+• different nozzle size
+    - larger, less layers, to make it run quicker
+
+grasshopper
+
+• clean up the file logic
+    - make grasshopper loading independent from who uses it                     Done
+    - clean up the amount of files & organize a couple of them                  
+    - streamline the Workflow
+        * geometry selection
+        * shell, pin, layer logic
+        * trimming/intersecting logic
+features
+
+• Periodic Patterns                                                             
+    - per function defining what this means / whether it is even possible       
+• Single Thickness Printing                                                     
+    - creating a shell class                                                    
+        * manages amount of                                                     
+• Workflow integration                                                          
+    - main_body curve generation                                                
+        * shell generation                                                      
+        * pin generation                                                        
+    - layer linking                                                             
+        * shell offsetting & splitting                                          
+        * inner - pin linking                                                   
+        * pin-shell linking                                                     
+    - pin printing                                                              
+        * safety plane implementation                                           
+• Brim offsetting                                                               
+• Start-Stop sequence update                                                    
+• Beginning & End statments & Flags                                             
+    - offsetting the first (2) layers inwards to avoid widdeing due to close    
+        proximity printing                                                      
+
+bugs
+
+• reducing the amount of print statements
+• 
