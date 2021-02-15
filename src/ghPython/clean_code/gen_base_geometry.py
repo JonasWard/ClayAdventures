@@ -39,11 +39,9 @@ class StandardObject:
             self.hs_pin.append(h)
             h+=self.h_layer
 
-    @property
     def pin_heights(self):
         return self.hs_pin
 
-    @property
     def body_heights(self):
         return self.hs_body
 
@@ -60,12 +58,9 @@ class StandardObject:
 
         # static variable lists
         val_list = [(1,1), (1, -1), (-1, -1), (-1, 1)]
-        # arc_set = [[0,1,2],[3,4,5]]
-        # line_set = [[5,0],[2,3]]
-
-        pts = []
 
         # generating the points
+        pts = []
         for i in range(4):
             pts.append(Point3d(
                 self.l_half*val_list[i][0],
