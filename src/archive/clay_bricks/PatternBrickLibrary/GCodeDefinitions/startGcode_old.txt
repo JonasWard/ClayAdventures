@@ -1,0 +1,32 @@
+;FLAVOR:Marlin
+;TIME:0
+;Filament used: 6.75709m
+;Layer height: 1.1
+;MINX:-47.897
+;MINY:-47.91
+;MINZ:1.1
+;MAXX:47.895
+;MAXY:47.91
+;MAXZ:99
+;Generated with Cura_SteamEngine 4.1.0
+M104 S210
+M105
+M109 S210
+M83 ;relative extrusion mode
+G28 ;Home
+G1 Z15.0 F6000 ;Move the platform down 15mm
+;Prime the extruder
+G92 E0
+G1 F200 E3
+G92 E0
+G92 E0
+G92 E0
+G1 F1500 E-6.5
+;LAYER_COUNT:90
+;LAYER:0
+M107
+M203 Z50
+M205 X30 Y30
+G0 F1500 X30 Y-3.573 Z20
+M205 X20 Y20
+;TYPE:SKIRT
