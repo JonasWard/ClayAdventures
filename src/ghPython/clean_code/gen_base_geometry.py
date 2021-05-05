@@ -52,9 +52,9 @@ class StandardObject:
         ]
 
     def base_profile(self):
-        #     *       *
-        #   *            *
-        #     *       *
+        #      *       *
+        #   *             *
+        #      *       *
 
         # static variable lists
         val_list = [(1,1), (1, -1), (-1, -1), (-1, 1)]
