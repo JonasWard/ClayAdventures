@@ -7,9 +7,9 @@ import time, random
 DISTANCE = 2.
 GRID_SIZE = DISTANCE * 2.
 # long
-#CHAR_LIST = " !#'$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~€¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ"
+CHAR_LIST = " !#'$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~€¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ"
 # short
-CHAR_LIST = " !#'$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+# CHAR_LIST = "()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 # CHAR_LIST = "012345678"
 BASE_PT = (-50., -50., 0.)
 
@@ -57,11 +57,11 @@ def v_distance(tpl_a: tuple, tpl_b: tuple) -> tuple:
 
 
 def v_sin(tpl: tuple) -> tuple:
-    return sin(tpl[0]), sin(tpl[1]), sin(tpl[2])
+    return sin(tpl[0]), sin(tpl[1]), 0
 
 
 def v_cos(tpl: tuple) -> tuple:
-    return cos(tpl[0]), cos(tpl[1]), cos(tpl[2])
+    return cos(tpl[0]), cos(tpl[1]), 1
 
 
 def v_round(tpl: tuple) -> tuple:
@@ -173,7 +173,7 @@ def v_hash_neighbours(v: tuple, d_invert: float, c: tuple) -> str:
     return char_list
 
 
-def v_hash_distance(vs:list, d: float, c: tuple) -> dict:
+def v_hash_distance(vs: list, d: float, c: tuple) -> dict:
     hash_dict = v_hash_dict()
 
     d_invert = 1. / d
@@ -201,6 +201,24 @@ def v_hash_distance(vs:list, d: float, c: tuple) -> dict:
         neighbours[v] = n_list
 
     return neighbours
+
+
+def v_sin(tpl: tuple) -> tuple:
+    return sin(tpl[0]), sin(tpl[1]), sin(tpl[2])
+
+
+def v_cos(tpl: tuple) -> tuple:
+    return cos(tpl[0]), cos(tpl[1]), cos(tpl[2])
+
+
+def gyroid_distance(v: tuple) -> float:
+    v = v_scale(v, .05)
+    s_x, s_y, _ = v_sin(v)
+    c_x, c_y, _ = v_cos(v)
+
+    ds = s_x * c_y + s_y
+
+    return 1. + ds * .25
 
 
 def circle(cnt=20, r=5.):
@@ -260,7 +278,7 @@ def v_bounds(vs: list) -> list:
 
 
 class Growth:
-    def __init__(self, vs, rep, att, rr, ar, jr, sm, ri):
+    def __init__(self, vs, rep, att, rr, ar, jr, sm, ri, repulse_treshold=10):
         self.vs = vs
         self.rep = rep
         self.att = att
@@ -272,7 +290,7 @@ class Growth:
         self.ri = ri
 
         self._length_dict = {}
-        self._treshold_repulse_count = 15
+        self._treshold_repulse_count = repulse_treshold
         self._growth_count = 0
 
     def jiggle(self):
@@ -282,7 +300,7 @@ class Growth:
             r = random.random() * self.jr
 
             n_vs.append(v_add(
-                v,(
+                v, (
                     cos(alpha) * r,
                     sin(alpha) * r,
                     0.
@@ -340,7 +358,9 @@ class Growth:
             for v in ovs:
                 d = v_distance(v, va)
 
-                if d < self.rr:
+                rr = self.rr * gyroid_distance(v)
+
+                if d < rr:
                     sc = self.rep * (1. - d / self.rr) ** 2.
                     vm_loc = v_scale(v_sub(va, v), sc)
                     vm = v_add(vm, vm_loc)
@@ -358,12 +378,14 @@ class Growth:
             v = self.vs[i]
             n = self.vs[(i + 1) % len(self.vs)]
 
+            ar = self.ar * gyroid_distance(v)
+
             pv = v_sub(p, v)
             pv_l = v_len(pv)
-            vm = v_scale(pv, self.att * (pv_l - self.ar - pv_l))
+            vm = v_scale(pv, self.att * (pv_l - ar - pv_l))
             nv = v_sub(n, v)
             nv_l = v_len(nv)
-            vm = v_add(vm, v_scale(nv, self.att * (nv_l - self.ar - nv_l)))
+            vm = v_add(vm, v_scale(nv, self.att * (nv_l - ar - nv_l)))
 
             n_vs.append(v_add(v, vm))
 
@@ -384,7 +406,7 @@ class Growth:
 
     def center(self) -> tuple:
         (x_min, x_max), (y_min, y_max), (z_min, z_max) = v_bounds(self.vs)
-        return (x_min - 1., y_min, - 1., z_min - 1.)
+        return (x_max - x_min, y_max - y_min, z_max - z_min)
 
     def bounds(self):
         return v_bounds(self.vs)
@@ -475,14 +497,16 @@ def v_circle(cnt, radius=5.):
     for i in range(cnt):
         alfa = i * 3.141527 * 2. / cnt
         vs.append((
-            (cos(alfa) + (random.random() - .5) * .1) * radius,
-            (sin(alfa) + (random.random() - .5) * .1) * radius,
+            (cos(alfa) + (random.random() - .5) * .01) * radius,
+            (sin(alfa) + (random.random() - .5) * .01) * radius,
             0.
         ))
 
     return vs
 
+
 START_TIME = time.time()
+
 
 def time_function(txt: str):
     global START_TIME
@@ -498,18 +522,19 @@ if __name__ == "__main__":
 
     gc = Growth(
         vs,
-        rep=.5,
-        att=.15,
-        rr=1.5,
-        ar=1.,
+        rep=.9,
+        att=.1,
+        rr=2.,
+        ar=1.2,
         jr=.2,
         sm=.7,
-        ri=.995
+        ri=.995,
+        repulse_treshold=10
     )
 
-    plgs = [gc.plg()]
+    # plgs = [gc.plg()]
     perf_per_v_treshold = 2000
-    vertex_treshold = 5000
+    vertex_treshold = 10000
     perf_treshold_cnt = 0
 
     for i in range(10000):
@@ -525,7 +550,7 @@ if __name__ == "__main__":
         if (perf_treshold_cnt > 3 and len(gc.vs) > 100) or len(gc.vs) > vertex_treshold:
             break
 
-#        plgs.append(gc.plg())
+        #        plgs.append(gc.plg())
         if i % 100 == 0:
             time_function("loop {}".format(i))
             print("growth area: {}".format(gc.area()))
