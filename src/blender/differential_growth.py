@@ -139,6 +139,11 @@ def v_norm(a, b):
     return 1 - abs(v_dot(a, b))
 
 
+def v_unit(a: tuple) -> tuple:
+    l = v_len(a)
+    return a[0] / l, a[1] / l, a[2] / l
+
+
 def simple_distance(vs: list) -> dict:
     global DISTANCE
 
@@ -186,8 +191,38 @@ def hash_distance(vs: list) -> dict:
     return neighbours
 
 
+def curtailed_LennordJones_potential(r0, D, r1=2., max_val=3.) -> float:
+    if D > r1:
+        return 0.
+
+    s_over_r = r0 / D
+    v = (s_over_r ** 12 - s_over_r ** 6)
+
+    if v > max_val:
+        return max_val
+
+    return v
+
+
+def LennordJones_potential(r0, D):
+    s_over_r = r0 / D
+
+    return (s_over_r ** 12 - s_over_r ** 6)
+
+
+def plot_LennordJones_potential(r0, sampling=200):
+    delta = 3. / sampling
+
+    vs = []
+
+    for i in range(1, sampling + 1):
+        vs.append((i * delta, LennordJones_potential(r0, i * delta), 0.))
+
+    return vs
+
+
 class GrowingChain:
-    def __init__(self, bpts, repulse_mag=.1, repulse_dis=5., attract_mag=.25, goal_len=1.):
+    def __init__(self, bpts, repulse_mag=.1, repulse_dis=5., attract_mag=.25, goal_len=5.):
         self.vs = bpts
         self.rmv = repulse_mag
         self.amv = attract_mag
@@ -198,6 +233,26 @@ class GrowingChain:
         self.rnd = .95
 
         self._grow_count = 0
+
+    def attract_repulse(self):
+        global DISTANCE
+        v_pairs = hash_distance(self.vs)
+
+        n_vs = []
+        for v, related in v_pairs.items():
+            v_sum = tuple(v)
+            for v_r in related:
+                d = v_distance(v_r, v_sum)
+
+                if d <= self.rdi:
+                    scale_val = self.amv * curtailed_LennordJones_potential(self.gll, d, DISTANCE, .5)
+                    v_mv = v_scale(v_unit(v_sub(v_r, v)), scale_val)
+
+                    v_sum = v_add(v_sum, v_mv)
+
+            n_vs.append(v_sum)
+
+        self.vs = n_vs
 
     def repulse(self):
         global DISTANCE
@@ -288,10 +343,11 @@ class GrowingChain:
 
     def grow(self):
         self.split()
-        self.angling()
-        self.random_extras()
-        self.repulse()
-        self.attract()
+        #        self.angling()
+        #        self.random_extras()
+        self.attract_repulse()
+        # self.repulse()
+        # self.attract()
 
         self._grow_count += 1
 
@@ -396,17 +452,27 @@ if __name__ == "__main__":
             y = (random.random() - .01) * 5.
             vs.append((x, y, 0.))
 
-    vs = v_circle(20, 5.)
+    vs = v_circle(20, 20.)
     print(vs)
 
-    gc = GrowingChain(vs, .025, .5, .1, .5)
+    gc = GrowingChain(
+        bpts=vs,
+        repulse_mag=.25,
+        repulse_dis=1.5,
+        attract_mag=.5,
+        goal_len=1.
+    )
+
+    # gc = GrowingChain(vs, .025, .5, 1., 1.)
     draw_crv_blender(gc.vs)
-    for i in range(200):
+    for i in range(500):
         #        try:
         gc.grow()
+        print(gc)
         draw_crv_blender(gc.vs)
         #        except:
         #            print("failed")
         ##            print(gc.vs)
         #            break
-        print(gc)
+
+    # draw_crv_blender(plot_LennordJones_potential(1.))
