@@ -173,13 +173,13 @@ def v_hash_neighbours(v: tuple, d_invert: float, c: tuple) -> str:
     return char_list
 
 
-def v_hash_distance(vs: list, d: float, c: tuple) -> dict:
+def v_hash_distance(vs: list, d: float, c: tuple, boundary: list) -> dict:
     hash_dict = v_hash_dict()
 
     d_invert = 1. / d
 
     # putting points in corresponding dict key
-    for v in vs:
+    for v in vs + boundary:
         hash_dict[v_hash(v, d_invert, c)].append(v)
 
     neighbours = {}
@@ -212,29 +212,13 @@ def v_cos(tpl: tuple) -> tuple:
 
 
 def gyroid_distance(v: tuple) -> float:
-    v = v_scale(v, .05)
+    v = v_scale(v, .1)
     s_x, s_y, _ = v_sin(v)
     c_x, c_y, _ = v_cos(v)
 
     ds = s_x * c_y + s_y
 
-    return 1. + ds * .25
-
-
-def circle(cnt=20, r=5.):
-    vs = []
-    dl = 3.1415927 * 2. / cnt
-
-    for i in range(cnt):
-        alpha = dl * i
-
-        vs.append((
-            cos(alpha) * (r + random.random()),
-            sin(alpha) * (r + random.random()),
-            0.
-        ))
-
-    return vs
+    return .8 + ds * .3
 
 
 def curtailed_LennordJones_potential(r0, D, r1=2., max_val=3.) -> float:
@@ -346,9 +330,9 @@ class Growth:
 
         self.vs = n_vs
 
-    def repulsion(self):
-        c = self.center()
-        v_dict = v_hash_distance(self.vs, self.rr, c)
+    def repulsion(self, boundary = []):
+        c = self.center(boundary)
+        v_dict = v_hash_distance(self.vs, self.rr, c, boundary)
         n_vs = []
 
         self._length_dict = {}
@@ -391,25 +375,26 @@ class Growth:
 
         self.vs = n_vs
 
-    def grow(self):
+    def grow(self, boundary):
         self.split()
         self.attraction()
-        self.repulsion()
+        self.repulsion(boundary)
         self.random_insert()
         self.jiggle()
         self.smoothing()
 
         self._growth_count += 1
 
-    def plg(self):
-        draw_crv_blender(self.vs)
+    def plg(self, h = 0):
+        vs = [(v[0], v[1], h) for v in self.vs]
+        draw_crv_blender(vs)
 
-    def center(self) -> tuple:
-        (x_min, x_max), (y_min, y_max), (z_min, z_max) = v_bounds(self.vs)
+    def center(self, boundary) -> tuple:
+        (x_min, x_max), (y_min, y_max), (z_min, z_max) = v_bounds(self.vs + boundary)
         return (x_max - x_min, y_max - y_min, z_max - z_min)
 
-    def bounds(self):
-        return v_bounds(self.vs)
+    def bounds(self, boundary):
+        return v_bounds(self.vs + boundary)
 
     def area(self):
         (x_min, x_max), (y_min, y_max), _ = v_bounds(self.vs)
@@ -491,7 +476,21 @@ def draw_crv_blender(vs):
     context.scene.collection.objects.link(obj)
 
 
-def v_circle(cnt, radius=5.):
+def v_circle(cnt, radius=20.):
+    vs = []
+
+    for i in range(cnt):
+        alfa = i * 3.141527 * 2. / cnt
+        vs.append((
+            cos(alfa) * radius,
+            sin(alfa) * radius,
+            0.
+        ))
+
+    return vs
+
+
+def v_circle_random(cnt, radius=5.):
     vs = []
 
     for i in range(cnt):
@@ -516,7 +515,7 @@ def time_function(txt: str):
 
 
 if __name__ == "__main__":
-    vs = circle(80, 5.)
+    vs = v_circle_random(80, 5.)
 
     local_time = time.time()
 
@@ -525,20 +524,29 @@ if __name__ == "__main__":
         rep=.9,
         att=.1,
         rr=2.,
-        ar=1.2,
-        jr=.2,
-        sm=.7,
+        ar=1.,
+        jr=.02,
+        sm=.8,
         ri=.995,
         repulse_treshold=10
     )
 
     # plgs = [gc.plg()]
-    perf_per_v_treshold = 2000
-    vertex_treshold = 10000
+    perf_per_v_treshold = 0
+    vertex_treshold = 20000
     perf_treshold_cnt = 0
 
-    for i in range(10000):
-        gc.grow()
+    boundary = v_circle(500, 40.)
+
+    draw_crv_blender(boundary)
+
+    for i in range(10):
+        gc.grow(boundary)
+        try:
+            pass
+        except:
+            print("growth area: {}".format(gc.area()))
+            break
         lc_time = time.time() - local_time
         local_time = time.time()
         perf_val = round(len(gc.vs) / lc_time)
