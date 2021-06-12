@@ -212,13 +212,14 @@ def v_cos(tpl: tuple) -> tuple:
 
 
 def gyroid_distance(v: tuple) -> float:
-    v = v_scale(v, .1)
-    s_x, s_y, _ = v_sin(v)
-    c_x, c_y, _ = v_cos(v)
-
-    ds = s_x * c_y + s_y
-
-    return .8 + ds * .3
+    # v = v_scale(v, .1)
+    # s_x, s_y, _ = v_sin(v)
+    # c_x, c_y, _ = v_cos(v)
+    #
+    # ds = s_x * c_y + s_y
+    #
+    # return .8 + ds * .3
+    return 1.
 
 
 def curtailed_LennordJones_potential(r0, D, r1=2., max_val=3.) -> float:
@@ -536,14 +537,13 @@ if __name__ == "__main__":
     vertex_treshold = 20000
     perf_treshold_cnt = 0
 
-    boundary = v_circle(500, 40.)
+    boundary = v_circle(250, 40.)
 
     draw_crv_blender(boundary)
 
-    for i in range(10):
-        gc.grow(boundary)
+    for i in range(200):
         try:
-            pass
+            gc.grow(boundary)
         except:
             print("growth area: {}".format(gc.area()))
             break
@@ -560,6 +560,7 @@ if __name__ == "__main__":
 
         #        plgs.append(gc.plg())
         if i % 100 == 0:
+            gc.plg(i * .02)
             time_function("loop {}".format(i))
             print("growth area: {}".format(gc.area()))
             print(str(gc) + '\n')
@@ -568,4 +569,4 @@ if __name__ == "__main__":
             print('\b{} - {}, '.format(len(gc.vs), perf_val))
     # plgs.reverse()
 
-    gc.plg()
+    gc.plg(i)

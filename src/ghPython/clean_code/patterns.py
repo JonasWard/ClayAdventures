@@ -78,6 +78,7 @@ class DotMap():
         else:
             return output_pt, -1.
 
+
 class EdgeEasing():
     def __init__(self, zero_length, normal_length, total_length):
         self.min = zero_length
@@ -95,6 +96,7 @@ class EdgeEasing():
             return (d_x - self.min) / self.d
         else:
             return 0.
+
 
 class SinWave(Pattern):
     def __init__(self, period, amplitude, dir_angle, b_pt = rg.Point3d.Origin, edge_easing = None):
@@ -120,6 +122,7 @@ class SinWave(Pattern):
 
         scale_val = sin(tmp_pt.X / self.p) * amp
         return rg.Point3d(v.o + v.n * scale_val)
+
 
 class PyramidPattern(Pattern):
     def __init__(self, radius, amplitude, y_scale = 1., dot_map = None, edge_easing = None):
@@ -150,6 +153,7 @@ class PyramidPattern(Pattern):
 
             return rg.Point3d(v.o + v.n * scale_val)
 
+
 class EllipsoidPattern(Pattern):
     def __init__(self, radius, amplitude, y_scale=1., dot_map=None, edge_easing=None):
 
@@ -179,6 +183,7 @@ class EllipsoidPattern(Pattern):
             scale_val = direction * amp * h
 
             return rg.Point3d(v.o + v.n * scale_val)
+
 
 class CylinderPattern(Pattern):
     def __init__(self, radius_a, radius_b, height, amplitude, dot_map=None, edge_easing=None):
@@ -220,6 +225,7 @@ class CylinderPattern(Pattern):
             return rg.Point3d(v.o + v.n * scale_val)
         else:
             return v.v
+
 
 class LayerMap(Pattern):
     def __init__(self, spacing, pattern_set, length, layer_spacing, radius, amplitude, direction = False, periodic = False, b_pt = rg.Point3d.Origin, edge_easing=None):
@@ -308,4 +314,47 @@ class LayerMap(Pattern):
 
             scale_val = 0.0
 
+        return rg.Point3d(v.o + v.n * scale_val)
+
+class AxolotlFlat(Pattern):
+    def __init__(self, sdf, amplitude, direction = False, b_pt = rg.Point3d.Origin, edge_easing=None):
+
+        self.sdf = sdf
+        self.a = amplitude if direction else -amplitude
+        self.b_pt = b_pt
+
+        self.ee = edge_easing
+
+    def apply(self, v):
+
+        tmp_pt = v.vec_version - self.b_pt
+
+        if not (isinstance(self.ee, type(None))):
+            amp = self.a * self.ee.scale_val(v.vec_version.X)
+        else:
+            amp = self.a
+
+        scale_val = self.sdf.GetDistance(tmp_pt.X, tmp_pt.Y, tmp_pt.Z) * amp
+        return rg.Point3d(v.o + v.n * scale_val)
+
+
+class AxolotlSpatial(Pattern):
+    def __init__(self, sdf, amplitude, direction=False, b_pt=rg.Point3d.Origin, edge_easing=None):
+
+        self.sdf = sdf
+        self.a = amplitude if direction else -amplitude
+        self.b_pt = b_pt
+
+        self.ee = edge_easing
+
+    def apply(self, v):
+
+        tmp_pt = v.o - self.b_pt
+
+        if not (isinstance(self.ee, type(None))):
+            amp = self.a * self.ee.scale_val(v.vec_version.X)
+        else:
+            amp = self.a
+
+        scale_val = self.sdf.GetDistance(tmp_pt.X, tmp_pt.Y, tmp_pt.Z) * amp
         return rg.Point3d(v.o + v.n * scale_val)
