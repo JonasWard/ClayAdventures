@@ -1,0 +1,7 @@
+M82 ;absolute extrusion mode
+G91 ;Set to Relative Positioning
+G0 Z10 E-500 F1000 ;Move Z Axis up and depressurize Extruder slightly
+G90 ;Set to Absolute Positioning
+G28 ;Home All
+M83 ;relative extrusion mode
+;End of Gcode

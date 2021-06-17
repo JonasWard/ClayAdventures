@@ -1,0 +1,9 @@
+T0
+M109 S0
+M82 ;absolute extrusion mode
+G28 ;Home all
+M83 ;relative extrusion mode
+;LAYER_COUNT:123
+;LAYER:0
+M107
+G0 F4800 X173.768 Y149.856 Z1.5
