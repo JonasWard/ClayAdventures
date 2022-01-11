@@ -9,10 +9,17 @@ class StandardObject:
 
         if production_parameters is None:
             production_parameters=default_production_dict
+        
+        if parameters["brick_length"] > parameters["brick_width"]:
+            self.l = parameters["brick_length"]
+            self.w = parameters["brick_width"]
+        else:
+            lw=[parameters["brick_length"],parameters["brick_width"]]
+            self.l=min(lw)
+            self.w=max(lw)
 
-        lw=[parameters["brick_length"],parameters["brick_width"]]
-        self.l=min(lw)
-        self.w=max(lw)
+        self.l -= self.w
+
         self.l_half=self.l*.5
         self.w_half=self.w*.5
         self.s_pin=parameters["pin_spacing"]
