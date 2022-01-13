@@ -1,7 +1,4 @@
 .DS_Store
 *.DS_Store
-.DS_Store
-src/.DS_Store
-src/cSharp/.DS_Store
-src/grasshopper/.DS_Store
-.DS_Store
+*/.DS_Store
+
