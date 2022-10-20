@@ -6,3 +6,11 @@
 /Users/jonas/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/obj/Debug/net45/ClayPatterns.AssemblyInfo.cs
 /Users/jonas/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/obj/Debug/net45/ClayPatterns.dll
 /Users/jonas/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/obj/Debug/net45/ClayPatterns.pdb
+/Users/jonasvandenbulcke/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/obj/Debug/net45/ClayPatterns.csproj.AssemblyReference.cache
+/Users/jonasvandenbulcke/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/obj/Debug/net45/ClayPatterns.AssemblyInfoInputs.cache
+/Users/jonasvandenbulcke/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/obj/Debug/net45/ClayPatterns.AssemblyInfo.cs
+/Users/jonasvandenbulcke/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/obj/Debug/net45/ClayPatterns.csproj.CoreCompileInputs.cache
+/Users/jonasvandenbulcke/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/obj/Debug/net45/ClayPatterns.dll
+/Users/jonasvandenbulcke/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/obj/Debug/net45/ClayPatterns.pdb
+/Users/jonasvandenbulcke/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/bin/Debug/net45/ClayPatterns.dll
+/Users/jonasvandenbulcke/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/bin/Debug/net45/ClayPatterns.pdb

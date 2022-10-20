@@ -126,9 +126,9 @@ namespace ClayPatterns
             return periodicSW;
         }
 
-        public SineWave2D MakePeriodic(ShellObject shell)
-        {
+        //public SineWave2D MakePeriodic(ShellObject shell)
+        //{
 
-        }
+        //}
     }
 }

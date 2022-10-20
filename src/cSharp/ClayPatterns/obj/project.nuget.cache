@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "2A2ZSQDTZ9bKLIRuwBYRlCCn4VE/vZq3UTZt+cncQ77iYfg56Z8o1jDFDPtoisSOFcX1qZnXWUSmirMvlolRGg==",
+  "dgSpecHash": "K7bQ7EAaBf0H4PL0DRUUUvADYhklQxr1ahGtphhDBBoXyKK7xd8eoQ7WU1iZ6BRbj03OKkXsVtgoTu8Ap+TLMQ==",
   "success": true,
-  "projectFilePath": "/Users/jonas/Documents/ClayPatterns/ClayPatterns/ClayPatterns/ClayPatterns.csproj",
+  "projectFilePath": "/Users/jonasvandenbulcke/Documents/reps/ClayAdventures/src/cSharp/ClayPatterns/ClayPatterns.csproj",
   "expectedPackageFiles": [
-    "/Users/jonas/.nuget/packages/grasshopper/6.16.19190.7001/grasshopper.6.16.19190.7001.nupkg.sha512",
-    "/Users/jonas/.nuget/packages/rhinocommon/6.16.19190.7001/rhinocommon.6.16.19190.7001.nupkg.sha512"
+    "/Users/jonasvandenbulcke/.nuget/packages/grasshopper/6.16.19190.7001/grasshopper.6.16.19190.7001.nupkg.sha512",
+    "/Users/jonasvandenbulcke/.nuget/packages/rhinocommon/6.16.19190.7001/rhinocommon.6.16.19190.7001.nupkg.sha512"
   ],
   "logs": []
 }

@@ -5,6 +5,8 @@
     <Version>1.0</Version>
     <Title>ClayPatterns</Title>
     <Description>Description of ClayPatterns</Description>
+    <RhinoPluginType>gha</RhinoPluginType>
+    <RhinoMacLauncher>/Applications/Rhino 7.app</RhinoMacLauncher>
   </PropertyGroup>
   
   <ItemGroup>
